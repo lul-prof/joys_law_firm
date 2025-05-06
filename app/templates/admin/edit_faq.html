@@ -1,0 +1,39 @@
+{% extends "admin/base.html" %}
+
+{% block title %}
+    {% if faq %}Edit FAQ{% else %}New FAQ{% endif %} - Admin Dashboard
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h2>{% if faq %}Edit FAQ{% else %}Add New FAQ{% endif %}</h2>
+</div>
+
+<div class="admin-form">
+    <form method="POST">
+        <div class="form-group">
+            <label for="question">Question</label>
+            <input type="text" class="form-control" id="question" name="question" 
+                   value="{{ faq.question if faq else '' }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="answer">Answer</label>
+            <textarea class="form-control" id="answer" name="answer" rows="5" required>
+                {{ faq.answer if faq else '' }}
+            </textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="category">Category</label>
+            <input type="text" class="form-control" id="category" name="category" 
+                   value="{{ faq.category if faq else '' }}" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            {% if faq %}Update FAQ{% else %}Add FAQ{% endif %}
+        </button>
+        <a href="{{ url_for('admin.faqs') }}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

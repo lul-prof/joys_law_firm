@@ -1,0 +1,49 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Manage Blog Posts - Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h2>Manage Blog Posts</h2>
+    <a href="{{ url_for('admin.new_post') }}" class="btn btn-primary">
+        <i class="fas fa-plus"></i> New Post
+    </a>
+</div>
+
+<div class="admin-table-wrapper">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Created</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for post in posts %}
+            <tr>
+                <td>{{ post.title }}</td>
+                <td>{{ post.author.username }}</td>
+                <td>{{ post.created_at.strftime('%Y-%m-%d') }}</td>
+                <td>
+                    <span class="status-badge status-{{ 'published' if post.published else 'draft' }}">
+                        {{ 'Published' if post.published else 'Draft' }}
+                    </span>
+                </td>
+                <td>
+                    <a href="{{ url_for('admin.edit_post', id=post.id) }}" class="btn btn-sm btn-info btn-icon">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a href="{{ url_for('admin.delete_post', id=post.id) }}" 
+                       class="btn btn-sm btn-danger btn-icon delete-confirm">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

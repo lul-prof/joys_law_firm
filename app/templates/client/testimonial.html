@@ -1,0 +1,47 @@
+{% extends "client/base.html" %}
+
+{% block title %}Submit Testimonial - Client Portal{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">Submit Your Testimonial</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        <div class="mb-3">
+                            <label for="content" class="form-label">Your Experience</label>
+                            <textarea class="form-control" id="content" name="content" rows="5" required></textarea>
+                            <small class="text-muted">Share your experience with our law firm</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="rating" class="form-label">Rating</label>
+                            <select class="form-control" id="rating" name="rating" required>
+                                <option value="">Select Rating</option>
+                                <option value="5">5 - Excellent</option>
+                                <option value="4">4 - Very Good</option>
+                                <option value="3">3 - Good</option>
+                                <option value="2">2 - Fair</option>
+                                <option value="1">1 - Poor</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="photo" class="form-label">Your Photo (Optional)</label>
+                            <input type="file" class="form-control" id="photo" name="photo" accept="image/*">
+                        </div>
+
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-primary">Submit Testimonial</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

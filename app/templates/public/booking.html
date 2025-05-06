@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}Book a Consultation - Joy's Law Firm{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="text-center mb-5">Schedule a Consultation</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }}">{{ message }}</div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <form method="POST">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Your Name</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email Address</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="phone" class="form-label">Phone Number</label>
+                    <input type="tel" class="form-control" id="phone" name="phone" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="attorney_id" class="form-label">Select Attorney</label>
+                    <select class="form-select" id="attorney_id" name="attorney_id" required>
+                        <option value="">Choose an attorney...</option>
+                        {% for attorney in attorneys %}
+                        <option value="{{ attorney.id }}">{{ attorney.name }} - {{ attorney.title }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="date" class="form-label">Preferred Date</label>
+                    <input type="date" class="form-control" id="date" name="date" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="time" class="form-label">Preferred Time</label>
+                    <input type="time" class="form-control" id="time" name="time" >
+                </div>
+
+                <div class="mb-3">
+                    <label for="purpose" class="form-label">Purpose of Consultation</label>
+                    <textarea class="form-control" id="purpose" name="purpose" rows="4" required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Request Appointment</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% block scripts %}
+<script>
+    // Set minimum date to today
+    const dateInput = document.getElementById('date');
+    const today = new Date().toISOString().split('T')[0];
+    dateInput.min = today;
+    
+    // Enhanced time input handling
+    const timeInput = document.getElementById('time');
+    timeInput.min = "09:00";
+    timeInput.max = "17:00";
+    
+    // Set default time if none selected
+    if (!timeInput.value) {
+        timeInput.value = "09:00";
+    }
+    
+    // Validate time is within business hours
+    timeInput.addEventListener('change', function() {
+        const selectedTime = this.value;
+        if (selectedTime < "09:00" || selectedTime > "17:00") {
+            alert("Please select a time between 9:00 AM and 5:00 PM");
+            this.value = "09:00";
+        }
+    });
+    
+    // Ensure time is required
+    document.querySelector('form').addEventListener('submit', function(e) {
+        if (!timeInput.value) {
+            e.preventDefault();
+            alert("Please select an appointment time");
+            return false;
+        }
+    });
+</script>
+{% endblock %}
+
+
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/booking.js') }}"></script>
+{% endblock %}
+
+{% endblock %}

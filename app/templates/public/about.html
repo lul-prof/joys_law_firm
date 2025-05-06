@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}About Us - Joy's Law Firm{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="text-center mb-5">About Joy's Law Firm</h1>
+    
+    <div class="row mb-5">
+        <div class="col-md-6">
+            <h2>Our Mission</h2>
+            <p class="lead">We are committed to providing exceptional legal services with integrity, professionalism, and dedication to our clients' needs.</p>
+            <p>At Joy's Law Firm, we believe in justice, equality, and the power of law to make positive changes in people's lives. Our team of experienced attorneys works tirelessly to ensure that every client receives the highest quality legal representation.</p>
+        </div>
+        <div class="col-md-6">
+            <img src="{{ url_for('static', filename='img/office.jpg') }}" alt="Law Office" class="img-fluid rounded shadow">
+        </div>
+    </div>
+
+    <h2 class="text-center mb-4">Our Team</h2>
+    <div class="row">
+        {% for attorney in attorneys %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                {% if attorney.photo %}
+                <img src="{{ url_for('static', filename='uploads/attorneys/' + attorney.photo) }}" class="card-img-top" alt="{{ attorney.name }}">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ attorney.name }}</h5>
+                    <p class="card-text">{{ attorney.title }}</p>
+                    <p class="card-text small">{{ attorney.bio[:150] }}...</p>
+                    <a href="{{ url_for('main.attorney_profile', attorney_id=attorney.id) }}" class="btn btn-primary">View Profile</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

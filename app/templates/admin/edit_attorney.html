@@ -1,0 +1,77 @@
+{% extends "admin/base.html" %}
+
+{% block title %}
+    {% if attorney %}Edit Attorney{% else %}New Attorney{% endif %} - Admin Dashboard
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h2>{% if attorney %}Edit Attorney{% else %}Add New Attorney{% endif %}</h2>
+</div>
+
+<div class="admin-form">
+    <form method="POST" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" class="form-control" id="name" name="name" 
+                           value="{{ attorney.name if attorney else '' }}" required>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" id="title" name="title" 
+                           value="{{ attorney.title if attorney else '' }}" required>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" 
+                           value="{{ attorney.email if attorney else '' }}" required>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input type="tel" class="form-control" id="phone" name="phone" 
+                           value="{{ attorney.phone if attorney else '' }}">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="bio">Biography</label>
+            <textarea class="form-control" id="bio" name="bio" rows="5">{{ attorney.bio if attorney else '' }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="photo">Profile Photo</label>
+            <input type="file" class="form-control" id="photo" name="photo" accept="image/*">
+            {% if attorney and attorney.photo %}
+            <div class="mt-2">
+                <img src="{{ url_for('static', filename='uploads/attorneys/' + attorney.photo) }}" 
+                     alt="{{ attorney.name }}" class="img-thumbnail" style="max-width: 200px;">
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="specializations">Specializations</label>
+            <input type="text" class="form-control" id="specializations" name="specializations" 
+                   value="{{ attorney.specializations if attorney else '' }}">
+            <small class="form-text text-muted">Separate specializations with commas</small>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            {% if attorney %}Update Attorney{% else %}Add Attorney{% endif %}
+        </button>
+        <a href="{{ url_for('admin.attorneys') }}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

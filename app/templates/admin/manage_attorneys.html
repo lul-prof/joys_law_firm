@@ -1,0 +1,51 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Manage Attorneys - Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h2>Manage Attorneys</h2>
+    <a href="{{ url_for('admin.new_attorney') }}" class="btn btn-primary">
+        <i class="fas fa-plus"></i> Add New Attorney
+    </a>
+</div>
+
+<div class="admin-table-wrapper">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Title</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for attorney in attorneys %}
+            <tr>
+                <td>{{ attorney.name }}</td>
+                <td>{{ attorney.title }}</td>
+                <td>{{ attorney.email }}</td>
+                <td>{{ attorney.phone }}</td>
+                <td>
+                    <span class="status-badge status-{{ attorney.status }}">
+                        {{ attorney.status|title }}
+                    </span>
+                </td>
+                <td>
+                    <a href="{{ url_for('admin.edit_attorney', id=attorney.id) }}" class="btn btn-sm btn-info btn-icon">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a href="{{ url_for('admin.delete_attorney', id=attorney.id) }}" 
+                       class="btn btn-sm btn-danger btn-icon delete-confirm">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

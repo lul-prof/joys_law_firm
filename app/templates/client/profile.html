@@ -1,0 +1,44 @@
+{% extends "client/base.html" %}
+
+{% block title %}My Profile - Joy's Law Firm{% endblock %}
+
+{% block client_content %}
+<div class="profile-page">
+    <h2>My Profile</h2>
+
+    <form method="POST" action="{{ url_for('client.profile') }}">
+        <div class="form-group">
+            <label for="full_name">Full Name</label>
+            <input type="text" id="full_name" name="full_name" class="form-control" value="{{ current_user.client.full_name }}" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" class="form-control" value="{{ current_user.email }}" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="phone">Phone</label>
+            <input type="tel" id="phone" name="phone" class="form-control" value="{{ current_user.client.phone }}">
+        </div>
+        
+        <div class="form-group">
+            <label for="address">Address</label>
+            <textarea id="address" name="address" class="form-control">{{ current_user.client.address }}</textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="new_password">New Password</label>
+            <input type="password" id="new_password" name="new_password" class="form-control">
+            <small class="form-text text-muted">Leave blank to keep current password</small>
+        </div>
+        
+        <div class="form-group">
+            <label for="confirm_password">Confirm New Password</label>
+            <input type="password" id="confirm_password" name="confirm_password" class="form-control">
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Update Profile</button>
+    </form>
+</div>
+{% endblock %}

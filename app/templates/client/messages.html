@@ -1,0 +1,50 @@
+{% extends "client/base.html" %}
+
+{% block title %}Messages - Joy's Law Firm{% endblock %}
+
+{% block client_content %}
+<div class="messages-page">
+    <div class="page-header">
+        <h2>Messages</h2>
+        <button class="btn btn-primary" onclick="document.getElementById('newMessageForm').style.display='block'">New Message</button>
+    </div>
+
+    <div id="newMessageForm" class="message-form" style="display: none;">
+        <form method="POST" action="{{ url_for('client.send_message') }}">
+            <div class="form-group">
+                <label for="recipient">Recipient</label>
+                <select id="recipient" name="recipient_id" class="form-control" required>
+                    <option value="">Select Recipient</option>
+                    {% for attorney in attorneys %}
+                    <option value="{{ attorney.user.id }}">{{ attorney.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="content">Message</label>
+                <textarea id="content" name="content" class="form-control" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-success">Send</button>
+            <button type="button" class="btn btn-secondary" onclick="document.getElementById('newMessageForm').style.display='none'">Cancel</button>
+        </form>
+    </div>
+
+    <div class="messages-list">
+        {% if messages %}
+            {% for message in messages %}
+            <div class="message-card {% if message.sender_id == current_user.id %}sent{% else %}received{% endif %}">
+                <div class="message-header">
+                    <span class="sender">{{ message.sender.username }}</span>
+                    <span class="timestamp">{{ message.timestamp.strftime('%Y-%m-%d %H:%M') }}</span>
+                </div>
+                <div class="message-content">
+                    {{ message.content }}
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="no-data">No messages available.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

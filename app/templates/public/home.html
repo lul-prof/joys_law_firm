@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Joy's Law Firm{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="hero-section bg-primary text-white py-5 mb-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h1 class="display-4">Welcome to Joy's Law Firm</h1>
+                <p class="lead">Your trusted partner in legal matters. We provide expert legal services with a personal touch.</p>
+                <a href="{{ url_for('main.contact') }}" class="btn btn-light btn-lg">Contact Us</a>
+            </div>
+            <div class="col-md-6">
+                <img src="{{ url_for('static', filename='img/hero-image.jpg') }}" alt="Law Firm" class="img-fluid rounded">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Practice Areas -->
+<section class="mb-5">
+    <h2 class="text-center mb-4">Our Practice Areas</h2>
+    <div class="row">
+        {% for area in practice_areas %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas {{ area.icon }} fa-3x mb-3 text-primary"></i>
+                    <h5 class="card-title">{{ area.name }}</h5>
+                    <p class="card-text">{{ area.description }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Featured Attorneys -->
+<section class="mb-5">
+    <h2 class="text-center mb-4">Our Attorneys</h2>
+    <div class="row">
+        {% for attorney in attorneys %}
+        <div class="col-md-3 mb-4">
+            <div class="card h-100">
+                {% if attorney.photo %}
+                <img src="{{ url_for('static', filename='uploads/attorneys/' + attorney.photo) }}" class="card-img-top" alt="{{ attorney.name }}">
+                {% endif %}
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ attorney.name }}</h5>
+                    <p class="card-text">{{ attorney.title }}</p>
+                    <a href="{{ url_for('main.attorney_profile', attorney_id=attorney.id) }}" class="btn btn-outline-primary">View Profile</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Testimonials -->
+<section class="mb-5 bg-light py-5">
+    <div class="container">
+        <h2 class="text-center mb-4">Client Testimonials</h2>
+        <div class="row">
+            {% for testimonial in testimonials %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            {% for i in range(testimonial.rating) %}
+                            <i class="fas fa-star text-warning"></i>
+                            {% endfor %}
+                        </div>
+                        <p class="card-text">{{ testimonial.content }}</p>
+                        <footer class="blockquote-footer">{{ testimonial.client_name }}</footer>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Recent Blog Posts -->
+<section class="mb-5">
+    <h2 class="text-center mb-4">Latest News</h2>
+    <div class="row">
+        {% for post in recent_posts %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                {% if post.image %}
+                <img src="{{ url_for('static', filename='uploads/blog/' + post.image) }}" class="card-img-top" alt="{{ post.title }}">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ post.title }}</h5>
+                    <p class="card-text">{{ post.content[:200] }}...</p>
+                    <a href="{{ url_for('main.blog_post', slug=post.slug) }}" class="btn btn-outline-primary">Read More</a>
+                </div>
+                <div class="card-footer text-muted">
+                    {{ post.created_at.strftime('%B %d, %Y') }}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

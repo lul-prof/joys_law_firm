@@ -1,0 +1,53 @@
+{% extends "client/base.html" %}
+
+{% block title %}My Documents - Joy's Law Firm{% endblock %}
+
+{% block client_content %}
+<div class="documents-page">
+    <div class="page-header">
+        <h2>My Documents</h2>
+        <button class="btn btn-primary" onclick="document.getElementById('uploadForm').style.display='block'">Upload Document</button>
+    </div>
+
+    <div id="uploadForm" class="upload-form" style="display: none;">
+        <form method="POST" action="{{ url_for('client.upload_document') }}" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="title">Document Title</label>
+                <input type="text" id="title" name="title" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" class="form-control"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="file">Select File</label>
+                <input type="file" id="file" name="file" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-success">Upload</button>
+            <button type="button" class="btn btn-secondary" onclick="document.getElementById('uploadForm').style.display='none'">Cancel</button>
+        </form>
+    </div>
+
+    <div class="documents-list">
+        {% if documents %}
+            {% for document in documents %}
+            <div class="document-card">
+                <div class="document-icon">
+                    <i class="fas fa-file-pdf fa-2x"></i>
+                </div>
+                <div class="document-info">
+                    <h4>{{ document.title }}</h4>
+                    <p>{{ document.description }}</p>
+                    <small>Uploaded: {{ document.uploaded_at.strftime('%Y-%m-%d') }}</small>
+                </div>
+                <div class="document-actions">
+                    <a href="{{ url_for('client.download_document', id=document.id) }}" class="btn btn-sm btn-primary">Download</a>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="no-data">No documents available.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

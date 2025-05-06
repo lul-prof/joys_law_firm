@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Our Services - Joy's Law Firm{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="text-center mb-5">Our Practice Areas</h1>
+
+    <div class="row">
+        {% for area in practice_areas %}
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fas {{ area.icon }} fa-2x text-primary me-3"></i>
+                        <h3 class="card-title mb-0">{{ area.name }}</h3>
+                    </div>
+                    <p class="card-text">{{ area.description }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

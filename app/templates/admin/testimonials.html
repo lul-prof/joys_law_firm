@@ -1,0 +1,65 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Manage Testimonials - Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h2>Manage Testimonials</h2>
+</div>
+
+<div class="admin-table-wrapper">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>Client Name</th>
+                <th>Content</th>
+                <th>Rating</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for testimonial in testimonials %}
+            <tr>
+                <td>{{ testimonial.client_name }}</td>
+                <td>{{ testimonial.content }}</td>
+                <td>{{ testimonial.rating }}/5</td>
+                <td>
+                    {% if testimonial.created_at %}
+                        {{ testimonial.created_at.strftime('%Y-%m-%d') }}
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+                <td>
+                    <span class="badge bg-{{ 'success' if testimonial.approved else 'warning' }}">
+                        {{ 'Approved' if testimonial.approved else 'Pending' }}
+                    </span>
+                </td>
+                <td>
+                    <div class="btn-group">
+                        {% if not testimonial.approved %}
+                        <a href="{{ url_for('admin.approve_testimonial', id=testimonial.id) }}" 
+                           class="btn btn-sm btn-success">
+                            <i class="fas fa-check"></i> Approve
+                        </a>
+                        {% endif %}
+                        <a href="{{ url_for('admin.delete_testimonial', id=testimonial.id) }}" 
+                           class="btn btn-sm btn-danger delete-confirm">
+                            <i class="fas fa-trash"></i> Delete
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% if not testimonials %}
+<div class="alert alert-info">
+    No testimonials found.
+</div>
+{% endif %}
+{% endblock %}

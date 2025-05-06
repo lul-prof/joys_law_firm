@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Blog - Joy's Law Firm{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="text-center mb-5">Legal Insights & News</h1>
+
+    <div class="row">
+        <div class="col-lg-8">
+            {% for post in posts.items %}
+            <article class="card mb-4">
+                <div class="card-body">
+                    {% if post.image %}
+                    <img src="{{ url_for('static', filename='uploads/blog/' + post.image) }}" class="card-img-top mb-3" alt="{{ post.title }}">
+                    {% endif %}
+                    <h2 class="card-title">{{ post.title }}</h2>
+                    <p class="text-muted">
+                        <small>
+                            Posted by {{ post.author.username }} on {{ post.created_at.strftime('%B %d, %Y') }}
+                        </small>
+                    </p>
+                    <p class="card-text">{{ post.content[:300] }}...</p>
+                    <a href="{{ url_for('main.blog_post', slug=post.slug) }}" class="btn btn-primary">Read More</a>
+                </div>
+            </article>
+            {% endfor %}
+
+            <!-- Pagination -->
+            <nav aria-label="Blog navigation">
+                <ul class="pagination justify-content-center">
+                    {% if posts.has_prev %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('main.blog', page=posts.prev_num) }}">Previous</a>
+                    </li>
+                    {% endif %}
+                    
+                    {% for page_num in posts.iter_pages(left_edge=2, left_current=2, right_current=2, right_edge=2) %}
+                    {% if page_num %}
+                    <li class="page-item {{ 'active' if page_num == posts.page else '' }}">
+                        <a class="page-link" href="{{ url_for('main.blog', page=page_num) }}">{{ page_num }}</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled"><span class="page-link">...</span></li>
+                    {% endif %}
+                    {% endfor %}
+                    
+                    {% if posts.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('main.blog', page=posts.next_num) }}">Next</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+        
+        <div class="col-lg-4">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">About Our Blog</h5>
+                    <p class="card-text">Stay informed with the latest legal news, insights, and updates from our experienced team of attorneys.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

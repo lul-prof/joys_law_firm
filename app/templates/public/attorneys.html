@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Our Attorneys - Joy's Law Firm{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="text-center mb-5">Our Legal Team</h1>
+
+    <div class="row">
+        {% for attorney in attorneys %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                {% if attorney.photo %}
+                <img src="{{ url_for('static', filename='uploads/attorneys/' + attorney.photo) }}" class="card-img-top" alt="{{ attorney.name }}">
+                {% endif %}
+                <div class="card-body">
+                    <h3 class="card-title">{{ attorney.name }}</h3>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ attorney.title }}</h6>
+                    <p class="card-text">{{ attorney.bio[:200] }}...</p>
+                    <div class="mt-3">
+                        <a href="{{ url_for('main.attorney_profile', attorney_id=attorney.id) }}" class="btn btn-primary">View Profile</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

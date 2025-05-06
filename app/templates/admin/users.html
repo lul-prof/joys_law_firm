@@ -1,0 +1,47 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Manage Users - Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h2>Manage Users</h2>
+    <a href="{{ url_for('admin.new_user') }}" class="btn btn-primary">
+        <i class="fas fa-plus"></i> Add New User
+    </a>
+</div>
+
+<div class="admin-table-wrapper">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    <span class="badge bg-{{ 'primary' if user.is_admin else 'secondary' }}">
+                        {{ 'Admin' if user.is_admin else 'User' }}
+                    </span>
+                </td>
+                <td>
+                    <a href="{{ url_for('admin.edit_user', id=user.id) }}" class="btn btn-sm btn-info btn-icon">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a href="{{ url_for('admin.delete_user', id=user.id) }}" 
+                       class="btn btn-sm btn-danger btn-icon delete-confirm">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

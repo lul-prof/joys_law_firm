@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.title }} - Joy's Law Firm{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <article>
+                {% if post.image %}
+                <img src="{{ url_for('static', filename='uploads/blog/' + post.image) }}" class="img-fluid rounded mb-4" alt="{{ post.title }}">
+                {% endif %}
+                
+                <h1 class="mb-3">{{ post.title }}</h1>
+                
+                <div class="text-muted mb-4">
+                    <p>
+                        Posted by {{ post.author.username }} on {{ post.created_at.strftime('%B %d, %Y') }}
+                        {% if post.updated_at != post.created_at %}
+                        <br>Last updated on {{ post.updated_at.strftime('%B %d, %Y') }}
+                        {% endif %}
+                    </p>
+                </div>
+                
+                <div class="blog-content">
+                    {{ post.content|safe }}
+                </div>
+                
+                <div class="mt-5">
+                    <a href="{{ url_for('main.blog') }}" class="btn btn-outline-primary">&larr; Back to Blog</a>
+                </div>
+            </article>
+        </div>
+    </div>
+</div>
+{% endblock %}

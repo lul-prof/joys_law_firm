@@ -1,0 +1,67 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Manage Appointments - Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h2>Manage Appointments</h2>
+</div>
+
+<div class="admin-table-wrapper">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>Client Name</th>
+                <th>Attorney</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Purpose</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for appointment in appointments %}
+            <tr>
+                <td>{{ appointment.client.full_name if appointment.client else 'N/A' }}</td>
+                <td>{{ appointment.attorney.name if appointment.attorney else 'N/A' }}</td>
+                <td>{{ appointment.date.strftime('%Y-%m-%d') }}</td>
+                <td>{{ appointment.time.strftime('%H:%M') }}</td>
+                <td>{{ appointment.purpose }}</td>
+                <td>
+                    <span class="badge bg-{{ 'success' if appointment.status == 'confirmed' 
+                        else 'warning' if appointment.status == 'pending' 
+                        else 'danger' }}">
+                        {{ appointment.status.title() }}
+                    </span>
+                </td>
+                <td>
+                    <div class="btn-group">
+                        {% if appointment.status == 'pending' %}
+                        <a href="{{ url_for('admin.confirm_appointment', id=appointment.id) }}" 
+                           class="btn btn-sm btn-success">
+                            <i class="fas fa-check"></i> Confirm
+                        </a>
+                        {% endif %}
+                        <a href="{{ url_for('admin.update_appointment', id=appointment.id) }}" 
+                           class="btn btn-sm btn-info">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                        <a href="{{ url_for('admin.delete_appointment', id=appointment.id) }}" 
+                           class="btn btn-sm btn-danger delete-confirm">
+                            <i class="fas fa-trash"></i> Delete
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% if not appointments %}
+<div class="alert alert-info">
+    No appointments found.
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}{{ attorney.name }} - Joy's Law Firm{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-4">
+            {% if attorney.photo %}
+            <img src="{{ url_for('static', filename='uploads/attorneys/' + attorney.photo) }}" class="img-fluid rounded mb-4" alt="{{ attorney.name }}">
+            {% endif %}
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Contact Information</h5>
+                    {% if attorney.email %}
+                    <p><i class="fas fa-envelope me-2"></i> {{ attorney.email }}</p>
+                    {% endif %}
+                    {% if attorney.phone %}
+                    <p><i class="fas fa-phone me-2"></i> {{ attorney.phone }}</p>
+                    {% endif %}
+                    <div class="social-links">
+                        {% if attorney.linkedin %}
+                        <a href="{{ attorney.linkedin }}" class="me-3" target="_blank"><i class="fab fa-linkedin fa-2x"></i></a>
+                        {% endif %}
+                        {% if attorney.twitter %}
+                        <a href="{{ attorney.twitter }}" target="_blank"><i class="fab fa-twitter fa-2x"></i></a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-8">
+            <h1 class="mb-2">{{ attorney.name }}</h1>
+            <h4 class="text-muted mb-4">{{ attorney.title }}</h4>
+            
+            {% if attorney.bio %}
+            <h5>Biography</h5>
+            <p>{{ attorney.bio }}</p>
+            {% endif %}
+            
+            {% if attorney.education %}
+            <h5>Education</h5>
+            <p>{{ attorney.education }}</p>
+            {% endif %}
+            
+            {% if attorney.experience %}
+            <h5>Experience</h5>
+            <p>{{ attorney.experience }}</p>
+            {% endif %}
+            
+            {% if attorney.specializations %}
+            <h5>Areas of Practice</h5>
+            <p>{{ attorney.specializations }}</p>
+            {% endif %}
+            
+            {% if attorney.video %}
+            <h5>Introduction Video</h5>
+            <div class="ratio ratio-16x9 mt-3">
+                <video controls>
+                    <source src="{{ url_for('static', filename='uploads/attorneys/' + attorney.video) }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            {% endif %}
+            
+            <div class="mt-4">
+                <a href="{{ url_for('main.booking') }}" class="btn btn-primary btn-lg">Schedule a Consultation</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

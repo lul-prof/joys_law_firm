@@ -1,0 +1,48 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Upload Document - Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0">Upload New Document</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Document Title</label>
+                        <input type="text" class="form-control" id="title" name="title" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="client_id" class="form-label">Assign to Client</label>
+                        <select class="form-control" id="client_id" name="client_id">
+                            <option value="">Select Client (Optional)</option>
+                            {% for client in clients %}
+                            <option value="{{ client.id }}">{{ client.username }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="file" class="form-label">Document File</label>
+                        <input type="file" class="form-control" id="file" name="file" required>
+                    </div>
+
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-primary">Upload Document</button>
+                        <a href="{{ url_for('admin.documents') }}" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

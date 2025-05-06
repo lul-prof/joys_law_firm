@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - Joy's Law Firm{% endblock %}
+
+{% block content %}
+<h2>Admin Dashboard</h2>
+
+<div class="row mt-4">
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-primary">
+            <div class="card-body">
+                <h5 class="card-title">Attorneys</h5>
+                <p class="card-text display-4">{{ attorneys_count }}</p>
+                <a href="{{ url_for('admin.attorneys') }}" class="btn btn-light">Manage Attorneys</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-success">
+            <div class="card-body">
+                <h5 class="card-title">Blog Posts</h5>
+                <p class="card-text display-4">{{ blog_posts_count }}</p>
+                <a href="{{ url_for('admin.blog') }}" class="btn btn-light">Manage Blog</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-info">
+            <div class="card-body">
+                <h5 class="card-title">Testimonials</h5>
+                <p class="card-text display-4">{{ testimonials_count }}</p>
+                <a href="{{ url_for('admin.testimonials') }}" class="btn btn-light">Manage Testimonials</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-warning">
+            <div class="card-body">
+                <h5 class="card-title">Pending Appointments</h5>
+                <p class="card-text display-4">{{ pending_appointments }}</p>
+                <a href="{{ url_for('admin.appointments') }}" class="btn btn-light">Manage Appointments</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="list-group">
+                    <a href="{{ url_for('admin.new_attorney') }}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-user-plus me-2"></i> Add New Attorney
+                    </a>
+                    <a href="{{ url_for('admin.new_post') }}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-pen me-2"></i> Create Blog Post
+                    </a>
+                    <a href="{{ url_for('admin.upload_document') }}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-file-upload me-2"></i> Upload Document
+                    </a>
+                    <a href="{{ url_for('admin.new_faq') }}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-question-circle me-2"></i> Add FAQ
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Recent Activity</h5>
+            </div>
+            <div class="card-body">
+                <div class="list-group">
+                    {% for appointment in recent_appointments %}
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">New Appointment</h6>
+                            <small>{{ appointment.created_at.strftime('%Y-%m-%d %H:%M') }}</small>
+                        </div>
+                        <p class="mb-1">Client: {{ appointment.client.full_name }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
