@@ -2,7 +2,7 @@ from datetime import datetime
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import db, login_manager
-from slugify import Slugify
+from slugify import slugify
 from text_unidecode import unidecode
 
 @login_manager.user_loader
@@ -108,9 +108,7 @@ class BlogPost(db.Model):
     def generate_slug(self):
         if not self.title:
             return
-
-        slugify = Slugify()
-
+    
         self.slug = slugify(self.title)
     
     def __repr__(self):
